@@ -1,0 +1,14 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /books/{bookId} {
+      // Anyone can read
+      allow read: if true;
+
+      // Only the whitelisted email can write
+      // Replace the email below with your own
+      allow write: if request.auth != null
+        && request.auth.token.email == "ccozens@gmail.com";
+    }
+  }
+}
