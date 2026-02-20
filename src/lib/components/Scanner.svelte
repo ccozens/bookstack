@@ -2,11 +2,12 @@
   import { createEventDispatcher, onDestroy } from 'svelte';
   import { scanFromCamera, stopCamera } from '$lib/services/scanner';
 
-  const dispatch = createEventDispatcher<{ scanned: string; cancel: void }>();
+  const dispatch = createEventDispatcher<{ scanned: string; cancel: void, skip: void }>();
   let videoEl: HTMLVideoElement;
   let scanning = false;
   let error = '';
   let manualIsbn = '';
+
 
   async function startScan() {
     error = ''; scanning = true;
@@ -56,6 +57,12 @@
   {#if error}<p class="text-sm text-red-400 text-center">{error}</p>{/if}
 
   <div class="border-t border-[--color-border] pt-4">
+    <button
+  on:click={() => dispatch('skip')}
+  class="text-sm text-[--color-muted] hover:text-[--color-text] transition-colors text-center"
+>
+  Skip — enter details manually
+</button>
     <p class="text-sm text-[--color-muted] mb-2 text-center">Or enter ISBN manually</p>
     <div class="flex gap-2">
       <input type="text" inputmode="numeric" placeholder="9781234567890" bind:value={manualIsbn}
