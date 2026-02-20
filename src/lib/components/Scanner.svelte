@@ -48,7 +48,7 @@
     {#if !scanning}
       <div class="absolute inset-0 flex items-center justify-center bg-black/60">
         <button on:click={startScan}
-          class="bg-[--color-accent] hover:bg-[--color-accent-hover] text-white font-semibold rounded-full px-6 py-3 transition-colors"
+          class="btn-primary"
         >Start scanning</button>
       </div>
     {/if}
@@ -57,12 +57,12 @@
   {#if error}<p class="text-sm text-red-400 text-center">{error}</p>{/if}
 
   <div class="border-t border-[--color-border] pt-4">
-    <button
-  on:click={() => dispatch('skip')}
-  class="text-sm text-[--color-muted] hover:text-[--color-text] transition-colors text-center"
->
-  Skip — enter details manually
-</button>
+        <button
+      on:click={() => dispatch('skip')}
+      class="btn-ghost w-full"
+    >
+      Skip — enter details manually
+    </button>
     <p class="text-sm text-[--color-muted] mb-2 text-center">Or enter ISBN manually</p>
     <div class="flex gap-2">
       <input type="text" inputmode="numeric" placeholder="9781234567890" bind:value={manualIsbn}
@@ -70,10 +70,10 @@
         class="flex-1 rounded-lg border border-[--color-border] bg-[--color-surface-2] text-[--color-text] placeholder-[--color-muted] px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[--color-accent] focus:border-transparent"
       />
       <button on:click={submitManual}
-        class="bg-[--color-accent] hover:bg-[--color-accent-hover] text-white text-sm font-semibold rounded-lg px-4 py-2.5 transition-colors"
+        class="btn-primary"
       >Look up</button>
     </div>
   </div>
 
-  <button on:click={cancel} class="text-sm text-[--color-muted] hover:text-[--color-text] transition-colors text-center">Cancel</button>
+  <button on:click={cancel} class="btn-secondary w-full">Cancel</button>
 </div>

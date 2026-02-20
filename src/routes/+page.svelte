@@ -114,7 +114,7 @@
   <div class="flex justify-end mb-6">
     <button
       on:click={openAddFlow}
-      class="flex items-center gap-2 bg-[--color-accent] hover:bg-[--color-accent-hover] text-white font-semibold rounded-full px-5 py-2.5 shadow-lg transition-colors"
+      class="btn-primary flex items-center gap-2 shadow-lg"
     >
       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>

@@ -71,11 +71,9 @@
     <input id="dateRead" type="date" bind:value={dateRead} class={inputClass()} />
   </div>
   <div class="flex gap-3 pt-2">
-    <button type="submit" disabled={loading}
-      class="flex-1 bg-[--color-accent] hover:bg-[--color-accent-hover] disabled:opacity-50 text-white font-semibold rounded-lg py-2.5 transition-colors"
-    >{loading ? 'Saving…' : 'Save book'}</button>
-    <button type="button" on:click={() => dispatch('cancel')}
-      class="px-4 py-2.5 text-sm text-[--color-muted] hover:text-[--color-text] border border-[--color-border] rounded-lg transition-colors hover:bg-[--color-surface-2]"
-    >Cancel</button>
+    <button type="submit" disabled={loading} class="btn-primary flex-1 rounded-lg disabled:opacity-50">
+      {loading ? 'Saving…' : 'Save book'}
+    </button>
+    <button type="button" on:click={() => dispatch('cancel')} class="btn-secondary rounded-lg">Cancel</button>
   </div>
 </form>

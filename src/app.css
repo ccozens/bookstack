@@ -42,10 +42,10 @@
   padding: 0.625rem 1.25rem;
   transition: background-color 0.15s;
   cursor: pointer;
-}
 
-@utility btn-primary:hover {
-  background-color: var(--color-accent-hover);
+  &:hover {
+    background-color: var(--color-accent-hover);
+  }
 }
 
 @utility btn-secondary {
@@ -57,10 +57,10 @@
   padding: 0.625rem 1.25rem;
   transition: border-color 0.15s, color 0.15s;
   cursor: pointer;
-}
 
-@utility btn-secondary:hover {
-  border-color: var(--color-accent);
+  &:hover {
+    border-color: var(--color-accent);
+  }
 }
 
 @utility btn-ghost {
@@ -71,9 +71,9 @@
   padding: 0.625rem 1.25rem;
   transition: background-color 0.15s, color 0.15s;
   cursor: pointer;
-}
 
-@utility btn-ghost:hover {
-  background-color: var(--color-border);
-  color: var(--color-text);
+  &:hover {
+    background-color: var(--color-border);
+    color: var(--color-text);
+  }
 }
