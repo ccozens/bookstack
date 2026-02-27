@@ -8,7 +8,7 @@
   let expanded = true;
 </script>
 
-<section class="mb-5">
+<section class="bg-[--color-surface-2] border border-[--color-border] hover:border-purple-700/40 rounded-xl p-4 mb-3 last:mb-0 transition-colors">
   <button
     class="w-full flex items-baseline justify-between gap-2 py-2 border-b border-[--color-border] mb-1 text-left group"
     on:click={() => (expanded = !expanded)}

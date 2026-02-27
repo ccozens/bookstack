@@ -158,12 +158,14 @@
   {#if filteredGroups.length === 0}
     <p class="text-center text-[--color-muted] py-8">No books match your search.</p>
   {:else}
-    {#each filteredGroups as group}
-      <AuthorGroup {group}
-        on:edit={(e) => openEditForm(e.detail)}
-        on:delete={(e) => handleDelete(e.detail)}
-      />
-    {/each}
+    <div class="bg-[--color-surface] rounded-2xl p-5">
+      {#each filteredGroups as group}
+        <AuthorGroup {group}
+          on:edit={(e) => openEditForm(e.detail)}
+          on:delete={(e) => handleDelete(e.detail)}
+        />
+      {/each}
+    </div>
   {/if}
 {/if}
 
