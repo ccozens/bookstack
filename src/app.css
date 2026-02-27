@@ -14,15 +14,15 @@
   --color-accent-hover: #818cf8;
   --color-accent-bg: rgba(110, 118, 245, 0.15); */
 
-  --color-bg:           #380401; 
-  --color-surface:      #451411; /* Warm Cocoa */
-  --color-surface-2:    #54201d; /* Spiced Red */
-  --color-border:       #6b3734; /* Soft Brick */
-  --color-text:         #fff1e6; /* Soft Apricot White */
-  --color-muted:        #a68a88; /* Warm Taupe */
-  --color-accent:       #ff7f50; /* Coral */
-  --color-accent-hover: #ff9a76; /* Light Salmon */
-  --color-accent-bg:    rgba(255, 127, 80, 0.15);
+  --color-bg:           #0a0a0f;
+  --color-surface:      #12111a;
+  --color-surface-2:    #1c1a2e;
+  --color-border:       #2e2b4a;
+  --color-text:         #f0eeff;
+  --color-muted:        #7b78a8;
+  --color-accent:       #7c3aed;
+  --color-accent-hover: #9158f5;
+  --color-accent-bg:    rgba(124, 58, 237, 0.15);
 }
 
 @layer base {
@@ -31,6 +31,15 @@
     background-color: var(--color-bg);
     color: var(--color-text);
     -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-image: radial-gradient(
+      ellipse 80% 50% at 50% -10%,
+      rgba(124, 58, 237, 0.25),
+      transparent
+    );
+    background-attachment: fixed;
   }
 }
 
