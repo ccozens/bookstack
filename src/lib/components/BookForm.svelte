@@ -1,12 +1,15 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import type { Book, BookInput } from '$lib/types';
+  import { books } from '$lib/stores/books';
 
   export let initial: Partial<Book> = {};
   export let loading = false;
   const dispatch = createEventDispatcher<{ submit: BookInput; cancel: void }>();
 
   function toDateInputValue(d: Date): string { return d.toISOString().split('T')[0]; }
+
+
 
   let title = initial.title ?? '';
   let author = initial.author ?? '';
@@ -16,6 +19,18 @@
   let dateRead = toDateInputValue(initial.dateRead ?? new Date());
   let coverUrl = initial.coverUrl ?? '';
   let errors: Record<string, string> = {};
+  let showSuggestions = false;
+
+
+      // Reactive: recompute when author field changes
+      $: existingSeries = author.trim()
+  ? Array.from(new Set(
+      $books
+        .filter(b => b.author.trim().toLowerCase() === author.trim().toLowerCase() && b.seriesName)
+        .map(b => b.seriesName as string)
+    )).sort()
+  : [];
+
 
   function validate(): boolean {
     errors = {};
@@ -56,9 +71,31 @@
     <input id="isbn" type="text" inputmode="numeric" bind:value={isbn} class={inputClass()} />
   </div>
   <div class="grid grid-cols-3 gap-3">
-    <div class="col-span-2">
+    <div class="col-span-2 relative">
       <label for="seriesName" class="block text-xs font-semibold text-[var(--color-muted)] uppercase tracking-wider mb-1.5">Series</label>
-      <input id="seriesName" type="text" bind:value={seriesName} class={inputClass()} />
+      <input
+        id="seriesName"
+        type="text"
+        bind:value={seriesName}
+        on:focus={() => showSuggestions = true}
+        on:blur={() => setTimeout(() => showSuggestions = false, 150)}
+        class={inputClass()}
+      />
+      {#if showSuggestions && existingSeries.length > 0}
+        <ul class="absolute z-50 left-0 right-0 mt-1 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg overflow-hidden shadow-xl">
+          {#each existingSeries as s}
+            <li>
+              <button
+                type="button"
+                on:mousedown={() => seriesName = s}
+                class="w-full text-left px-3 py-2.5 text-sm text-[var(--color-text)] hover:bg-[var(--color-surface-2)] transition-colors"
+              >
+                {s}
+              </button>
+            </li>
+          {/each}
+        </ul>
+      {/if}
     </div>
     <div>
       <label for="seriesNumber" class="block text-xs font-semibold text-[var(--color-muted)] uppercase tracking-wider mb-1.5"># in series</label>

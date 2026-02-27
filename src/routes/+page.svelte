@@ -64,6 +64,17 @@
     mode = 'form';
   }
 
+  function getSeriesForAuthor(author: string): string[] {
+  const normalised = author.trim().toLowerCase();
+  const series = new Set<string>();
+  for (const book of $books) {
+    if (book.author.trim().toLowerCase() === normalised && book.seriesName) {
+      series.add(book.seriesName);
+    }
+  }
+  return Array.from(series).sort();
+}
+
   async function handleFormSubmit(bookInput: BookInput) {
     formLoading = true;
     try {
