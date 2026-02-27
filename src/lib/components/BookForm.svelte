@@ -31,6 +31,17 @@
     )).sort()
   : [];
 
+  $: if (seriesName.trim() && !initial.seriesNumber) {
+  const seriesBooks = $books.filter(
+    b => b.seriesName?.trim().toLowerCase() === seriesName.trim().toLowerCase()
+      && b.author.trim().toLowerCase() === author.trim().toLowerCase()
+  );
+  if (seriesBooks.length > 0) {
+    const maxNum = Math.max(...seriesBooks.map(b => b.seriesNumber ?? 0));
+    seriesNumber = (maxNum + 1).toString();
+  }
+}
+
 
   function validate(): boolean {
     errors = {};
