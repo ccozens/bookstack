@@ -37,37 +37,37 @@
   }
 
   const inputClass = (err?: string) =>
-    `w-full rounded-lg border px-3 py-2.5 text-sm bg-[--color-surface-2] text-[--color-text] placeholder-[--color-muted] focus:outline-none focus:ring-2 focus:ring-[--color-accent] focus:border-transparent transition ${err ? 'border-red-500' : 'border-[--color-border]'}`;
+    `w-full rounded-lg border px-3 py-2.5 text-sm bg-[--color-surface-2] text-[--color-text] placeholder-[--color-muted] focus:outline-none focus:ring-2 focus:ring-[--color-accent] focus:border-transparent transition ${err ? 'border-red-500' : 'border-[var(--color-border)]'}`;
 </script>
 
 <form on:submit|preventDefault={handleSubmit} class="flex flex-col gap-4" novalidate>
   <div>
-    <label for="title" class="block text-xs font-semibold text-[--color-muted] uppercase tracking-wider mb-1.5">Title *</label>
+    <label for="title" class="block text-xs font-semibold text-[var(--color-muted)] uppercase tracking-wider mb-1.5">Title *</label>
     <input id="title" type="text" bind:value={title} class={inputClass(errors.title)} />
     {#if errors.title}<p class="text-xs text-red-400 mt-1">{errors.title}</p>{/if}
   </div>
   <div>
-    <label for="author" class="block text-xs font-semibold text-[--color-muted] uppercase tracking-wider mb-1.5">Author *</label>
+    <label for="author" class="block text-xs font-semibold text-[var(--color-muted)] uppercase tracking-wider mb-1.5">Author *</label>
     <input id="author" type="text" bind:value={author} class={inputClass(errors.author)} />
     {#if errors.author}<p class="text-xs text-red-400 mt-1">{errors.author}</p>{/if}
   </div>
   <div>
-    <label for="isbn" class="block text-xs font-semibold text-[--color-muted] uppercase tracking-wider mb-1.5">ISBN</label>
+    <label for="isbn" class="block text-xs font-semibold text-[var(--color-muted)] uppercase tracking-wider mb-1.5">ISBN</label>
     <input id="isbn" type="text" inputmode="numeric" bind:value={isbn} class={inputClass()} />
   </div>
   <div class="grid grid-cols-3 gap-3">
     <div class="col-span-2">
-      <label for="seriesName" class="block text-xs font-semibold text-[--color-muted] uppercase tracking-wider mb-1.5">Series</label>
+      <label for="seriesName" class="block text-xs font-semibold text-[var(--color-muted)] uppercase tracking-wider mb-1.5">Series</label>
       <input id="seriesName" type="text" bind:value={seriesName} class={inputClass()} />
     </div>
     <div>
-      <label for="seriesNumber" class="block text-xs font-semibold text-[--color-muted] uppercase tracking-wider mb-1.5"># in series</label>
+      <label for="seriesNumber" class="block text-xs font-semibold text-[var(--color-muted)] uppercase tracking-wider mb-1.5"># in series</label>
       <input id="seriesNumber" type="number" min="1" bind:value={seriesNumber} class={inputClass(errors.seriesNumber)} />
       {#if errors.seriesNumber}<p class="text-xs text-red-400 mt-1">{errors.seriesNumber}</p>{/if}
     </div>
   </div>
   <div>
-    <label for="dateRead" class="block text-xs font-semibold text-[--color-muted] uppercase tracking-wider mb-1.5">Date read</label>
+    <label for="dateRead" class="block text-xs font-semibold text-[var(--color-muted)] uppercase tracking-wider mb-1.5">Date read</label>
     <input id="dateRead" type="date" bind:value={dateRead} class={inputClass()} />
   </div>
   <div class="flex gap-3 pt-2">

@@ -93,19 +93,19 @@
 <!-- Hero heading -->
 <div class="mb-6">
   <h1 class="text-3xl font-bold text-[--color-text] mb-1">Your Library</h1>
-  <p class="text-[--color-muted] text-sm">{totalBooks} {totalBooks === 1 ? 'book' : 'books'} cataloged.</p>
+  <p class="text-[var(--color-muted)] text-sm">{totalBooks} {totalBooks === 1 ? 'book' : 'books'} cataloged.</p>
 </div>
 
 <!-- Search bar -->
 <div class="relative mb-6">
-  <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[--color-muted]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+  <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--color-muted)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
     <circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/>
   </svg>
   <input
     type="search"
     placeholder="Search titles, authors..."
     bind:value={searchQuery}
-    class="w-full bg-[--color-surface] border border-[--color-border] rounded-full pl-11 pr-4 py-3 text-sm text-[--color-text] placeholder-[--color-muted] focus:outline-none focus:ring-2 focus:ring-[--color-accent] focus:border-transparent transition"
+    class="w-full bg-[var(--color-surface)] border border-[var(--color-border)] rounded-full pl-11 pr-4 py-3 text-sm text-[--color-text] placeholder-[--color-muted] focus:outline-none focus:ring-2 focus:ring-[--color-accent] focus:border-transparent transition"
   />
 </div>
 
@@ -125,7 +125,7 @@
 {/if}
 
 {#if $booksLoading}
-  <div class="text-center py-16 text-[--color-muted]">
+  <div class="text-center py-16 text-[var(--color-muted)]">
     <svg class="animate-spin w-8 h-8 mx-auto mb-3 text-[--color-accent]" fill="none" viewBox="0 0 24 24">
       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
       <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
@@ -137,17 +137,17 @@
   <p class="text-center text-red-400 py-8">{$booksError}</p>
 
 {:else if $groupedBooks.length === 0}
-  <div class="border-2 border-dashed border-[--color-border] rounded-2xl py-20 px-8 text-center">
+  <div class="border-2 border-dashed border-[var(--color-border)] rounded-2xl py-20 px-8 text-center">
     <div class="w-16 h-16 rounded-full bg-[--color-surface-2] flex items-center justify-center mx-auto mb-4">
-      <svg class="w-8 h-8 text-[--color-muted]" fill="currentColor" viewBox="0 0 24 24">
+      <svg class="w-8 h-8 text-[var(--color-muted)]" fill="currentColor" viewBox="0 0 24 24">
         <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/>
       </svg>
     </div>
     <p class="font-semibold text-[--color-text] text-lg mb-1">Your library is empty</p>
     {#if $isAuthorised}
-      <p class="text-sm text-[--color-muted]">Start adding books by scanning their barcodes!</p>
+      <p class="text-sm text-[var(--color-muted)]">Start adding books by scanning their barcodes!</p>
     {:else}
-      <p class="text-sm text-[--color-muted]">Sign in to start adding books.</p>
+      <p class="text-sm text-[var(--color-muted)]">Sign in to start adding books.</p>
     {/if}
   </div>
 
@@ -156,9 +156,9 @@
     <p class="text-sm text-amber-400 bg-amber-950/40 border border-amber-800 rounded-lg px-4 py-2 mb-4">{lookupError}</p>
   {/if}
   {#if filteredGroups.length === 0}
-    <p class="text-center text-[--color-muted] py-8">No books match your search.</p>
+    <p class="text-center text-[var(--color-muted)] py-8">No books match your search.</p>
   {:else}
-    <div class="bg-[--color-surface] rounded-2xl p-5">
+    <div class="bg-[var(--color-surface-2)] rounded-2xl p-5">
       {#each filteredGroups as group}
         <AuthorGroup {group}
           on:edit={(e) => openEditForm(e.detail)}

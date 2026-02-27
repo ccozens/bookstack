@@ -5,7 +5,7 @@
 
 <div class="min-h-screen flex flex-col bg-[--color-bg]">
   <!-- Header -->
-  <header class="sticky top-0 z-40 bg-[--color-bg] border-b border-[--color-border]">
+  <header class="sticky top-0 z-40 bg-[--color-bg] border-b border-[var(--color-border)]">
     <div class="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-2.5">
         <div class="w-8 h-8 rounded-lg bg-[--color-accent] flex items-center justify-center">
@@ -25,7 +25,7 @@
   </main>
 
   <!-- Bottom nav -->
-  <nav class="fixed bottom-0 left-0 right-0 bg-[--color-bg] border-t border-[--color-border] z-40">
+  <nav class="fixed bottom-0 left-0 right-0 bg-[--color-bg] border-t border-[var(--color-border)] z-40">
     <div class="max-w-2xl mx-auto flex justify-around py-3">
       <a href="/" class="flex flex-col items-center gap-1 text-[--color-accent]">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">

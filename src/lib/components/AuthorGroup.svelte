@@ -8,16 +8,16 @@
   let expanded = true;
 </script>
 
-<section class="bg-[--color-surface-2] border border-[--color-border] hover:border-purple-700/40 rounded-xl p-4 mb-3 last:mb-0 transition-colors">
+<section class="bg-[var(--color-surface-2)] border border-[var(--color-accent)] hover:border-purple-700/40 rounded-xl p-4 mb-3 last:mb-0 transition-colors">
   <button
-    class="w-full flex items-baseline justify-between gap-2 py-2 border-b border-[--color-border] mb-1 text-left group"
+    class="w-full flex items-baseline justify-between gap-2 py-2 border-b border-[var(--color-border)] mb-1 text-left group"
     on:click={() => (expanded = !expanded)}
     aria-expanded={expanded}
   >
     <h2 class="font-bold text-base text-[--color-text] group-hover:text-[--color-accent] transition-colors">
       {group.displayName}
     </h2>
-    <span class="text-xs text-[--color-muted] tabular-nums shrink-0">
+    <span class="text-xs text-[var(--color-muted)] tabular-nums shrink-0">
       {group.series.reduce((n, s) => n + s.books.length, 0) + group.standalones.length} books
     </span>
   </button>

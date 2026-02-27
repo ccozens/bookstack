@@ -56,18 +56,18 @@
 
   {#if error}<p class="text-sm text-red-400 text-center">{error}</p>{/if}
 
-  <div class="border-t border-[--color-border] pt-4">
+  <div class="border-t border-[var(--color-border)] pt-4">
         <button
       on:click={() => dispatch('skip')}
       class="btn-ghost w-full"
     >
       Skip — enter details manually
     </button>
-    <p class="text-sm text-[--color-muted] mb-2 text-center">Or enter ISBN manually</p>
+    <p class="text-sm text-[var(--color-muted)] mb-2 text-center">Or enter ISBN manually</p>
     <div class="flex gap-2">
       <input type="text" inputmode="numeric" placeholder="9781234567890" bind:value={manualIsbn}
         on:keydown={(e) => e.key === 'Enter' && submitManual()}
-        class="flex-1 rounded-lg border border-[--color-border] bg-[--color-surface-2] text-[--color-text] placeholder-[--color-muted] px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[--color-accent] focus:border-transparent"
+        class="flex-1 rounded-lg border border-[var(--color-border)] bg-[--color-surface-2] text-[--color-text] placeholder-[--color-muted] px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[--color-accent] focus:border-transparent"
       />
       <button on:click={submitManual}
         class="btn-primary"
