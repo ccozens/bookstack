@@ -5,9 +5,11 @@ export interface ScanResult {
   format: string;
 }
 
+const reader = new BrowserMultiFormatReader();
+
 export async function scanFromCamera(videoElement: HTMLVideoElement): Promise<ScanResult> {
   return new Promise((resolve, reject) => {
-    BrowserMultiFormatReader.decodeFromVideoDevice(
+    reader.decodeFromVideoDevice(
       undefined,
       videoElement,
       (result, err) => {
@@ -33,6 +35,6 @@ export function stopCamera(videoElement: HTMLVideoElement): void {
     stream?.getTracks().forEach((t) => t.stop());
     videoElement.srcObject = null;
   } catch {
-    // silently ignore cleanup errors
+    // silently ignore
   }
 }
