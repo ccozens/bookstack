@@ -8,12 +8,14 @@ export interface ScanResult {
 const reader = new BrowserMultiFormatReader();
 
 export async function scanFromCamera(videoElement: HTMLVideoElement): Promise<ScanResult> {
-  // Request rear camera explicitly on mobile
   const stream = await navigator.mediaDevices.getUserMedia({
     video: { facingMode: 'environment' }
   });
   videoElement.srcObject = stream;
   await videoElement.play();
+
+  // Wait for video to have actual frames
+  await new Promise(resolve => setTimeout(resolve, 500));
 
   return new Promise((resolve, reject) => {
     reader.decodeFromStream(stream, videoElement, (result, err) => {
