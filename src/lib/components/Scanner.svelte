@@ -10,15 +10,19 @@
 
 
   async function startScan() {
-    error = ''; scanning = true;
-    try {
-      const result = await scanFromCamera(videoEl);
-      dispatch('scanned', result.text);
-    } catch (e) {
-      error = 'Could not read barcode. Try typing the ISBN below.';
-      scanning = false;
+  error = ''; scanning = true;
+  try {
+    const result = await scanFromCamera(videoEl);
+    dispatch('scanned', result.text);
+  } catch (e) {
+    scanning = false;
+    if (e instanceof Error) {
+      error = `${e.name}: ${e.message}`;
+    } else {
+      error = JSON.stringify(e);
     }
   }
+}
 
   function submitManual() {
     const cleaned = manualIsbn.replace(/[^0-9X]/gi, '');
