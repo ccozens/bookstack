@@ -192,9 +192,11 @@
 {#if mode === 'form'}
   <Modal title={editingId ? 'Edit book' : 'Add book'} onclose={() => (mode = null)}>
     {#if lookupError}<p class="text-sm text-amber-400 mb-3">{lookupError}</p>{/if}
-    <BookForm initial={formInitial} loading={formLoading}
-      on:submit={(e) => handleFormSubmit(e.detail)}
-      on:cancel={() => (mode = null)}
+    <BookForm
+      initial={formInitial}
+      loading={formLoading}
+      onsubmit={(book) => handleFormSubmit(book)}
+      oncancel={() => (mode = null)}
     />
   </Modal>
 {/if}

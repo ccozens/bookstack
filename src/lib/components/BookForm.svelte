@@ -1,47 +1,50 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
   import type { Book, BookInput } from '$lib/types';
   import { books } from '$lib/stores/books';
 
-  export let initial: Partial<Book> = {};
-  export let loading = false;
-  const dispatch = createEventDispatcher<{ submit: BookInput; cancel: void }>();
+  interface Props {
+    initial?: Partial<Book>;
+    loading?: boolean;
+    onsubmit: (book: BookInput) => void;
+    oncancel: () => void;
+  }
+
+  let { initial = {}, loading = false, onsubmit, oncancel }: Props = $props();
 
   function toDateInputValue(d: Date): string { return d.toISOString().split('T')[0]; }
 
+  let title = $state(initial.title ?? '');
+  let author = $state(initial.author ?? '');
+  let isbn = $state(initial.isbn ?? '');
+  let seriesName = $state(initial.seriesName ?? '');
+  let seriesNumber = $state(initial.seriesNumber?.toString() ?? '');
+  let dateRead = $state(toDateInputValue(initial.dateRead ?? new Date()));
+  let coverUrl = $state(initial.coverUrl ?? '');
+  let errors = $state<Record<string, string>>({});
+  let showSuggestions = $state(false);
 
-
-  let title = initial.title ?? '';
-  let author = initial.author ?? '';
-  let isbn = initial.isbn ?? '';
-  let seriesName = initial.seriesName ?? '';
-  let seriesNumber = initial.seriesNumber?.toString() ?? '';
-  let dateRead = toDateInputValue(initial.dateRead ?? new Date());
-  let coverUrl = initial.coverUrl ?? '';
-  let errors: Record<string, string> = {};
-  let showSuggestions = false;
-
-
-      // Reactive: recompute when author field changes
-      $: existingSeries = author.trim()
-  ? Array.from(new Set(
-      $books
-        .filter(b => b.author.trim().toLowerCase() === author.trim().toLowerCase() && b.seriesName)
-        .map(b => b.seriesName as string)
-    )).sort()
-  : [];
-
-  $: if (seriesName.trim() && !initial.seriesNumber) {
-  const seriesBooks = $books.filter(
-    b => b.seriesName?.trim().toLowerCase() === seriesName.trim().toLowerCase()
-      && b.author.trim().toLowerCase() === author.trim().toLowerCase()
+  let existingSeries = $derived(
+    author.trim()
+      ? Array.from(new Set(
+          $books
+            .filter(b => b.author.trim().toLowerCase() === author.trim().toLowerCase() && b.seriesName)
+            .map(b => b.seriesName as string)
+        )).sort()
+      : []
   );
-  if (seriesBooks.length > 0) {
-    const maxNum = Math.max(...seriesBooks.map(b => b.seriesNumber ?? 0));
-    seriesNumber = (maxNum + 1).toString();
-  }
-}
 
+  $effect(() => {
+    if (seriesName.trim() && !initial.seriesNumber) {
+      const seriesBooks = $books.filter(
+        b => b.seriesName?.trim().toLowerCase() === seriesName.trim().toLowerCase()
+          && b.author.trim().toLowerCase() === author.trim().toLowerCase()
+      );
+      if (seriesBooks.length > 0) {
+        const maxNum = Math.max(...seriesBooks.map(b => b.seriesNumber ?? 0));
+        seriesNumber = (maxNum + 1).toString();
+      }
+    }
+  });
 
   function validate(): boolean {
     errors = {};
@@ -53,7 +56,7 @@
 
   function handleSubmit() {
     if (!validate()) return;
-    dispatch('submit', {
+    onsubmit({
       title: title.trim(), author: author.trim(), isbn: isbn.trim(),
       seriesName: seriesName.trim() || undefined,
       seriesNumber: seriesNumber ? Number(seriesNumber) : undefined,
@@ -63,10 +66,10 @@
   }
 
   const inputClass = (err?: string) =>
-    `w-full rounded-lg border px-3 py-2.5 text-sm bg-[--color-surface-2] text-[--color-text] placeholder-[--color-muted] focus:outline-none focus:ring-2 focus:ring-[--color-accent] focus:border-transparent transition ${err ? 'border-red-500' : 'border-[var(--color-border)]'}`;
+    `w-full rounded-lg border px-3 py-2.5 text-sm bg-[var(--color-surface-2)] text-[var(--color-text)] placeholder-[var(--color-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:border-transparent transition ${err ? 'border-red-500' : 'border-[var(--color-border)]'}`;
 </script>
 
-<form on:submit|preventDefault={handleSubmit} class="flex flex-col gap-4" novalidate>
+<form onsubmit={(e) => { e.preventDefault(); handleSubmit(); }} class="flex flex-col gap-4" novalidate>
   <div>
     <label for="title" class="block text-xs font-semibold text-[var(--color-muted)] uppercase tracking-wider mb-1.5">Title *</label>
     <input id="title" type="text" bind:value={title} class={inputClass(errors.title)} />
@@ -88,8 +91,8 @@
         id="seriesName"
         type="text"
         bind:value={seriesName}
-        on:focus={() => showSuggestions = true}
-        on:blur={() => setTimeout(() => showSuggestions = false, 150)}
+        onfocus={() => showSuggestions = true}
+        onblur={() => setTimeout(() => showSuggestions = false, 150)}
         class={inputClass()}
       />
       {#if showSuggestions && existingSeries.length > 0}
@@ -98,7 +101,7 @@
             <li>
               <button
                 type="button"
-                on:mousedown={() => seriesName = s}
+                onmousedown={() => seriesName = s}
                 class="w-full text-left px-3 py-2.5 text-sm text-[var(--color-text)] hover:bg-[var(--color-surface-2)] transition-colors"
               >
                 {s}
@@ -122,6 +125,6 @@
     <button type="submit" disabled={loading} class="btn-primary flex-1 rounded-lg disabled:opacity-50">
       {loading ? 'Saving…' : 'Save book'}
     </button>
-    <button type="button" on:click={() => dispatch('cancel')} class="btn-secondary rounded-lg">Cancel</button>
+    <button type="button" onclick={oncancel} class="btn-secondary rounded-lg">Cancel</button>
   </div>
 </form>
