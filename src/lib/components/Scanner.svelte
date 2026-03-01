@@ -47,8 +47,8 @@
 </script>
 
 <div class="flex flex-col gap-4">
-  <div class="relative rounded-xl overflow-hidden bg-black aspect-[3/4] w-full max-w-xs mx-auto">
-    <!-- svelte-ignore a11y-media-has-caption -->
+  <div class="relative rounded-xl overflow-hidden bg-black aspect-3/4 w-full max-w-xs mx-auto">
+    <!-- svelte-ignore a11y_media_has_caption -->
     <video bind:this={videoEl} class="w-full h-full object-cover" playsinline autoplay></video>
     <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
       <div class="w-48 h-32 relative">

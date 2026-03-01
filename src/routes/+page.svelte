@@ -181,7 +181,7 @@
 {/if}
 
 {#if mode === 'scan'}
-  <Modal title="Scan barcode" on:close={() => (mode = null)}>
+  <Modal title="Scan barcode" onclose={() => (mode = null)}>
     <Scanner
       onscanned={(isbn) => handleScanned(isbn)}
       oncancel={() => (mode = null)}
@@ -190,7 +190,7 @@
 {/if}
 
 {#if mode === 'form'}
-  <Modal title={editingId ? 'Edit book' : 'Add book'} on:close={() => (mode = null)}>
+  <Modal title={editingId ? 'Edit book' : 'Add book'} onclose={() => (mode = null)}>
     {#if lookupError}<p class="text-sm text-amber-400 mb-3">{lookupError}</p>{/if}
     <BookForm initial={formInitial} loading={formLoading}
       on:submit={(e) => handleFormSubmit(e.detail)}
