@@ -182,11 +182,10 @@
 
 {#if mode === 'scan'}
   <Modal title="Scan barcode" on:close={() => (mode = null)}>
-    <Scanner 
-      on:scanned={(e) => handleScanned(e.detail)} 
-      on:cancel={() => (mode = null)} 
-      on:skip={() => { formInitial = { dateRead: new Date() }; mode = 'form'; }} 
-      />
+    <Scanner
+      onscanned={(isbn) => handleScanned(isbn)}
+      oncancel={() => (mode = null)}
+      onskip={() => { formInitial = { dateRead: new Date() }; mode = 'form'; }} />
   </Modal>
 {/if}
 
