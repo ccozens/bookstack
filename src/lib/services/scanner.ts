@@ -6,11 +6,26 @@ export interface ScanResult {
 }
 
 const reader = new BrowserMultiFormatReader();
+let activeControls: { stop: () => void } | null = null;
+
+async function getCameraStream(): Promise<MediaStream> {
+  // Prefer rear camera for ISBN scanning on mobile, but gracefully
+  // fall back to any available camera on devices without one.
+  try {
+    return await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: { ideal: 'environment' } }
+    });
+  } catch {
+    return navigator.mediaDevices.getUserMedia({ video: true });
+  }
+}
 
 export async function scanFromCamera(videoElement: HTMLVideoElement): Promise<ScanResult> {
-  const stream = await navigator.mediaDevices.getUserMedia({
-    video: { facingMode: 'environment' }
-  });
+  if (!navigator.mediaDevices?.getUserMedia) {
+    throw new Error('Camera access is not supported in this browser/context.');
+  }
+
+  const stream = await getCameraStream();
   videoElement.srcObject = stream;
   await videoElement.play();
 
@@ -18,7 +33,7 @@ export async function scanFromCamera(videoElement: HTMLVideoElement): Promise<Sc
   await new Promise(resolve => setTimeout(resolve, 500));
 
   return new Promise((resolve, reject) => {
-    reader.decodeFromStream(stream, videoElement, (result, err) => {
+    const maybeControls = reader.decodeFromStream(stream, videoElement, (result, err) => {
       if (result) {
         stopCamera(videoElement);
         resolve({
@@ -31,11 +46,21 @@ export async function scanFromCamera(videoElement: HTMLVideoElement): Promise<Sc
         reject(err);
       }
     });
+
+    Promise.resolve(maybeControls)
+      .then((controls) => {
+        activeControls = controls;
+      })
+      .catch(() => {
+        activeControls = null;
+      });
   });
 }
 
 export function stopCamera(videoElement: HTMLVideoElement): void {
   try {
+    activeControls?.stop();
+    activeControls = null;
     const stream = videoElement.srcObject as MediaStream | null;
     stream?.getTracks().forEach((t) => t.stop());
     videoElement.srcObject = null;

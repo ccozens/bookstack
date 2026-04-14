@@ -15,6 +15,34 @@
   let error = $state('');
   let manualIsbn = $state('');
 
+  function formatScanError(e: unknown): string {
+    if (!(e instanceof Error)) return 'Barcode scanning failed. Please try again or enter ISBN manually.';
+
+    const name = e.name;
+    const message = e.message ?? '';
+
+    if (name === 'NotAllowedError' || name === 'SecurityError') {
+      return 'Camera permission was denied. Allow camera access in your browser settings to scan barcodes.';
+    }
+    if (name === 'NotFoundError' || name === 'DevicesNotFoundError') {
+      return 'No camera was found on this device. Enter the ISBN manually instead.';
+    }
+    if (name === 'NotReadableError' || name === 'TrackStartError') {
+      return 'Your camera is busy or unavailable. Close other camera apps and try again.';
+    }
+    if (name === 'OverconstrainedError') {
+      return 'Could not access a compatible camera on this device. Please enter the ISBN manually.';
+    }
+    if (name === 'TypeError' && /secure|https|context/i.test(message)) {
+      return 'Camera scanning requires a secure connection (HTTPS or localhost).';
+    }
+    if (/not supported/i.test(message)) {
+      return 'Camera access is not supported in this browser/context. Enter the ISBN manually instead.';
+    }
+
+    return `Scanner error: ${name}${message ? ` - ${message}` : ''}`;
+  }
+
   async function startScan() {
     error = '';
     scanning = true;
@@ -23,7 +51,7 @@
       onscanned(result.text);
     } catch (e) {
       scanning = false;
-      error = e instanceof Error ? `${e.name}: ${e.message}` : JSON.stringify(e);
+      error = formatScanError(e);
     }
   }
 
