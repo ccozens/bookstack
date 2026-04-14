@@ -8,6 +8,19 @@ export interface ScanResult {
 const reader = new BrowserMultiFormatReader();
 let activeControls: { stop: () => void } | null = null;
 
+function isExpectedNoDetectionError(err: unknown): boolean {
+  if (!err || typeof err !== 'object') return false;
+
+  const errorLike = err as { name?: string; message?: string };
+  const name = errorLike.name ?? '';
+  const message = errorLike.message ?? '';
+
+  return (
+    name === 'NotFoundException' ||
+    /No MultiFormat Readers were able to detect the code/i.test(message)
+  );
+}
+
 async function getCameraStream(): Promise<MediaStream> {
   // Prefer rear camera for ISBN scanning on mobile, but gracefully
   // fall back to any available camera on devices without one.
@@ -41,7 +54,7 @@ export async function scanFromCamera(videoElement: HTMLVideoElement): Promise<Sc
           format: result.getBarcodeFormat().toString()
         });
       }
-      if (err && err.name !== 'NotFoundException') {
+      if (err && !isExpectedNoDetectionError(err)) {
         stopCamera(videoElement);
         reject(err);
       }
